@@ -1,14 +1,14 @@
 {
     "description": "Addon to download all Tabs as URL files.",
     "manifest_version": 2,
-    "name": "TabAway",
+    "name": "TabsToFile",
     "version": "1.0",
     "homepage_url": "https://github.com/Rebel1898",
     
     "browser_action": {
       "browser_style": true,
-      "default_icon": "icons/anime.PNG",
-      "default_title": "TabAway"
+      "default_icon": "icons/dibujo.svg",
+      "default_title": "TabsToFile"
     },
     "permissions": [
       "tabs", "downloads"
