@@ -14,42 +14,53 @@ function logTabs(tabs) {
   }
   return listado_links;
 }
-
-function downloadContent(name, content, id) {
-  var file = new Blob([content], { type: 'application/octet-stream;' });
-  file.name = name;
-  return file;
+async function blobToUint8Array(blob) {
+  const arrayBuffer = await blob.arrayBuffer();
+  return new Uint8Array(arrayBuffer);
 }
 
-function GenerateZipfile(tabs) {
-  var atag = document.createElement("a");
-  var zip = new JSZip();
-  var path = "";
-  var carpeta = zip.folder(path);
+function uint8ToBase64(uint8Array) {
+  let binary = '';
+  for (let i = 0; i < uint8Array.length; i++) {
+    binary += String.fromCharCode(uint8Array[i]);
+  }
+  return btoa(binary);
+}
 
+function ReturnFileName() {
+  const cadena = "Tabs_";
+  const extension = ".zip";
+  const ahora = new Date();
+  const dd = String(ahora.getDate()).padStart(2, '0');
+  const MM = String(ahora.getMonth() + 1).padStart(2, '0'); // Meses van de 0-11
+  const yyyy = ahora.getFullYear();
+  const HH = String(ahora.getHours()).padStart(2, '0');
+  const mm = String(ahora.getMinutes()).padStart(2, '0');
+  return cadena + `${dd}.${MM}.${yyyy}_${HH}.${mm}` + extension;
+}
+
+
+function GenerateZipfile(tabs) {
+  const files = {};
   if (tabs.length > 0) {
     for (var c = 0; c < tabs.length; c++) {
       var title = tabs[c].title + ".URL";
       var text = "[InternetShortcut]\nURL=" + tabs[c].url + "\nIDList= \nHotKey=0 \nIconFile=peperoni \nIconIndex=0";
       text = text.replace(/\n/g, "\r\n");
-
       var name = title.replace(/\\/g, "-");
       name = name.replace(/\//g, "-");
-
-      var link = downloadContent(name, text);
-      carpeta.file(name, link);      
+      files[name] = fflate.strToU8(text);
     }
 
-    zip.generateAsync({
-      type: "base64", compression: "DEFLATE",
-      compressionOptions: {
-        level: 9
-      }
-    })
-      .then(function (content) {
-        atag.href = "data:application/zip;base64," + content;
-        atag.download = "Current Tabs";
-        atag.click();
-      });
+    const zipContent = fflate.zipSync(files);
+    const blob = new Blob([zipContent], { type: "application/zip" }); 
+    const fileName = ReturnFileName();
+    const downloadFile = new File([blob], fileName);
+    const url = URL.createObjectURL(downloadFile)
+    chrome.tabs.create({ url: url });
+
   }
+
 }
+
+

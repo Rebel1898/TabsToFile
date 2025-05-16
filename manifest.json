@@ -1,8 +1,8 @@
 {
-    "description": "Addon to download all Tabs as URL files.",
+    "description": "This addon allows to download all open tabs as URL files, in a compressed zip file.",
     "manifest_version": 2,
     "name": "TabsToFile",
-    "version": "1.0",
+    "version": "2.3",
     "homepage_url": "https://github.com/Rebel1898",
     
     "browser_action": {
@@ -15,7 +15,7 @@
      ],
 
     "background": {
-      "scripts": ["background.js","jszip.min.js"]
+      "scripts": ["background.js","fflate.min.js"]
     }
   }
 
