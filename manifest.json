@@ -1,26 +1,34 @@
 {
-    "description": "This addon allows to download all open tabs as URL files, in a compressed zip file.",
-    "manifest_version": 2,
-    "name": "TabsToFile",
-    "version": "2.3",
-    "homepage_url": "https://github.com/Rebel1898",
-    
-    "browser_action": {
-      "browser_style": true,
-      "default_icon": "icons/dibujo.svg",
-      "default_title": "TabsToFile"
-    },
-    "permissions": [
-      "tabs", "downloads"
-     ],
-
-    "background": {
-      "scripts": ["background.js","fflate.min.js"]
+  "description": "This addon allows to download all open tabs as URL files, in a compressed zip file.",
+  "manifest_version": 2,
+  "name": "TabsToFile",
+  "version": "2.3",
+  "homepage_url": "https://github.com/Rebel1898",
+    "browser_specific_settings": {
+    "gecko": {
+      "id": "mi-extension@ejemplo.com"
     }
+  },
+  "browser_action": {
+    "browser_style": true,
+    "default_icon": "icons/dibujo.svg",
+    "default_title": "TabsToFile"
+  },
+  "permissions": [
+    "tabs",
+    "downloads",
+        "storage"
+  ],
+  "background": {
+    "scripts": [
+      "background.js",
+      "fflate.min.js"
+    ]
+  },
+  "options_ui": {
+    "page": "options.html",
+    "open_in_tab": false,
+    "browser_style": true
   }
-
-   
-
   
-
-  
+}

@@ -1,0 +1,39 @@
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="options.css">
+    <title>BookmarksToFile Settings</title>
+</head>
+
+<body>
+    <h1>Settings</h1>
+
+    <h3><u>Output file:</u></h3>
+
+    <form id="optionsForm">
+        <label>
+            <input type="radio" name="opcion" value=".URL">
+            .URL (Windows)
+        </label><br>
+        <label>
+            <input type="radio" name="opcion" value=".desktop">
+            .desktop (Linux)
+        </label><br>
+        <label>
+            <input type="radio" name="opcion" value=".webloc">
+            .webloc (Mac)
+        </label><br><br>
+        <label><u>Extract tabs from all opened windows:</u></label><br><br>
+        <label class="switch">
+            <input type="checkbox" id="miCheckbox">
+            <span class="slider"></span>
+            
+        </label><br><br>
+        <button type="submit">Guardar</button>
+    </form>
+
+    <script src="options.js"></script>
+</body>
+
+</html>
