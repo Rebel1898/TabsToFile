@@ -4,7 +4,7 @@
   "name": "TabsToFile",
   "version": "2.3",
   "homepage_url": "https://github.com/Rebel1898",
-    "browser_specific_settings": {
+  "browser_specific_settings": {
     "gecko": {
       "id": "mi-extension@ejemplo.com"
     }
@@ -15,9 +15,13 @@
     "default_title": "TabsToFile"
   },
   "permissions": [
-    "tabs",
     "downloads",
-        "storage"
+    "storage",
+    "tabs",
+    "<all_urls>"
+  ],
+  "host_permissions": [
+    "*://*/*"
   ],
   "background": {
     "scripts": [
@@ -30,5 +34,4 @@
     "open_in_tab": false,
     "browser_style": true
   }
-  
 }
