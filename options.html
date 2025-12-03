@@ -25,15 +25,19 @@
             .webloc (Mac)
         </label><br>
         <label>
+            <input type="radio" name="opcion" value=".txt">
+            .txt
+        </label><br>
+        <label>
             <input type="radio" name="opcion" value=".HTML">
-             .HTML file only
+            .HTML file only
         </label><br>
-         <label>
+        <label>
             <input type="radio" name="opcion" value=".HTML2">
-            .HTML complete*
+            .HTML complete (May take a while to complete)
         </label><br>
-        
-        
+
+
         <br>
         <label><u>Extract tabs from all opened windows:</u></label><br><br>
 
@@ -41,13 +45,18 @@
             <input type="checkbox" id="miCheckbox">
             <span class="slider"></span>
         </label>
-        
-        
+
+
         <br><br>
 
-
-
-        <button type="submit">Save</button>
+        <div id="statusMessage" style="color: #d08300; font-size: 0.9rem; display: none;">
+           ⚠️ Unsaved changes
+        </div>
+        
+        <div id="confirmMessage" style="color: #00d050; font-size: 0.9rem; display: none;">
+           Saved changes!
+        </div>
+        <button id="confirmButton" type="submit" disabled>Confirm changes</button>
     </form>
 
     <script src="options.js"></script>

@@ -37,15 +37,26 @@ browser.browserAction.onClicked.addListener(async (tab) => {
 
     for (const tab of all_tabs) {
       try {
-        await browser.tabs.executeScript(tab.id, {
-          code: codigo,
-        });
+        if (!tab.startsWith("blob:")) {
+          await browser.tabs.executeScript(tab.id, {
+            code: codigo,
+          });
+        }
+        else {
+          await browser.tabs.executeScript(tab.id, {
+            code: "", // no hace nada
+          });
+        }
+
       } catch (e) {
         // console.warn(`Error inyectando código en pestaña ${tab.url}:`, e);
       }
     }
 
-    GenerateZipfile(all_tabs, preferencia);
+    if (preferencia == ".txt")
+      GenerarTxtFile(all_tabs);
+    else
+      GenerateZipfile(all_tabs, preferencia);
   } catch (error) {
     console.error("Error en la ejecución:", error);
   }
@@ -85,12 +96,11 @@ async function detectarSOyDevolverOpcion() {
   }
 }
 
-function ReturnFileName() {
+function ReturnFileName(extension) {
   const cadena = "Tabs_";
-  const extension = ".zip";
   const ahora = new Date();
   const dd = String(ahora.getDate()).padStart(2, '0');
-  const MM = String(ahora.getMonth() + 1).padStart(2, '0'); 
+  const MM = String(ahora.getMonth() + 1).padStart(2, '0');
   const yyyy = ahora.getFullYear();
   const HH = String(ahora.getHours()).padStart(2, '0');
   const mm = String(ahora.getMinutes()).padStart(2, '0');
@@ -105,6 +115,7 @@ function GenerateText(cadena, title, preferencia) {
     text = "[Desktop Entry]\nVersion=1.0\nType=Link\nName=" + title + "\nComment=Acceso directo a una web\nIcon=text-html\nURL=" + cadena;
   return text;
 }
+
 
 
 function GeneratePDF(htmlContent) {
@@ -166,8 +177,6 @@ async function obtenerHTMLDeTodasLasPestanasEsperando() {
       const [html] = await browser.tabs.executeScript(tab.id, {
         code: `document.documentElement.outerHTML;`,
       });
-
-      
 
       resultados.push({
         title: tab.title,
@@ -439,6 +448,40 @@ function obtenerRutaLocal(srcOriginal, url, title) {
   return decodeURIComponent(name);
 }
 
+
+
+
+async function GenerarTxtFile(tabs) {
+  let contenido = "";
+
+  for (var c = 0; c < tabs.length; c++) {
+    contenido += tabs[c].url + "\n";
+  }
+
+  const blob = new Blob([contenido], { type: "text/plain" });
+  // const url = URL.createObjectURL(blob);
+  const filename = ReturnFileName(".txt");
+  const url = URL.createObjectURL(blob)
+
+  chrome.downloads.download({
+    'url': url,
+    'filename': filename,
+  })
+  chrome.tabs.create({ url: url });
+
+  // const a = document.createElement("a");
+  // a.href = url;
+  // a.download = ReturnFileName(".txt");
+  // a.click();
+  // setTimeout(() => URL.revokeObjectURL(url), 1000);
+}
+
+
+
+
+
+
+
 async function GenerateZipfile(tabs, preferencia) {
   var files = {};
   if (preferencia.includes(".HTML")) {
@@ -475,10 +518,19 @@ async function GenerateZipfile(tabs, preferencia) {
     }
     const zipContent = fflate.zipSync(files);
     const blob = new Blob([zipContent], { type: "application/zip" });
-    const fileName = ReturnFileName();
-    const downloadFile = new File([blob], fileName);
-    const url = URL.createObjectURL(downloadFile)
-    
+    const fileName = ReturnFileName(".zip");
+
+    // const downloadFile = new File([blob], fileName);
+    const url = URL.createObjectURL(blob)
+
+
+    chrome.downloads.download({
+      'url': url,
+      'filename': fileName,
+    })
+
+
+
     chrome.tabs.create({ url: url });
 
 

@@ -6,7 +6,7 @@
   "homepage_url": "https://github.com/Rebel1898",
   "browser_specific_settings": {
     "gecko": {
-      "id":  "{323ca25d-90cf-4ff1-aaba-f9b3661f25b0}"
+      "id": "{323ca25d-90cf-4ff1-aaba-f9b3661f25b0}"
     }
   },
   "browser_action": {
@@ -20,13 +20,13 @@
     "tabs",
     "<all_urls>"
   ],
-
   "background": {
     "scripts": [
       "background.js",
       "fflate.min.js"
     ]
   },
+  "incognito": "spanning",
   "options_ui": {
     "page": "options.html",
     "open_in_tab": false,
