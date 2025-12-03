@@ -118,30 +118,30 @@ function GenerateText(cadena, title, preferencia) {
 
 
 
-function GeneratePDF(htmlContent) {
-  const container = document.createElement('div');
-  container.id = 'contenido';
-  container.style.width = '210mm';
-  container.style.background = '#fff';
-  container.style.padding = '20px';
-  container.style.fontFamily = 'Arial, sans-serif';
+// function GeneratePDF(htmlContent) {
+//   const container = document.createElement('div');
+//   container.id = 'contenido';
+//   container.style.width = '210mm';
+//   container.style.background = '#fff';
+//   container.style.padding = '20px';
+//   container.style.fontFamily = 'Arial, sans-serif';
 
-  container.innerHTML = htmlContent;
+//   container.innerHTML = htmlContent;
 
-  document.body.appendChild(container);
+//   document.body.appendChild(container);
 
-  setTimeout(() => {
-    html2pdf().from(container).set({
-      margin: 10,
-      filename: 'pagina.pdf',
-      image: { type: 'jpeg', quality: 0.98 },
-      html2canvas: { scale: 2, useCORS: true },
-      jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
-    }).save().then(() => {
-      document.body.removeChild(container);
-    });
-  }, 500);
-}
+//   setTimeout(() => {
+//     html2pdf().from(container).set({
+//       margin: 10,
+//       filename: 'pagina.pdf',
+//       image: { type: 'jpeg', quality: 0.98 },
+//       html2canvas: { scale: 2, useCORS: true },
+//       jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
+//     }).save().then(() => {
+//       document.body.removeChild(container);
+//     });
+//   }, 500);
+// }
 
 async function obtenerDatosDeTodasLasPestanas() {
   const tabs = await browser.tabs.query({ currentWindow: true });
